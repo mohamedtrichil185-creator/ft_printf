@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_print_u.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/13 08:07:25 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/10/13 08:07:26 by mtraichl         ###   ########.fr       */
+/*   Created: 2026/10/30 18:53:24 by mtraichl          #+#    #+#             */
+/*   Updated: 2026/10/31 10:27:03 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+#include "ft_printf.h"
+
+void	ft_putuni_fd(unsigned int number, int fd)
 {
-	unsigned char	*p;
+    if (number > 9)
+		ft_putuni_fd(number / 10, fd);
+	ft_putchar_fd((number % 10) + '0', fd);
+}
 
-	p = (unsigned char *)s;
-	while (n--)
-		*p++ = (unsigned char )c;
-	return (s);
+void    print_u(unsigned int n)
+{
+    ft_putuni_fd(n, 1);
 }

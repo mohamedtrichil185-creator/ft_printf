@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   ft_print_d_i.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/13 07:59:15 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/10/13 12:43:56 by mtraichl         ###   ########.fr       */
+/*   Created: 2026/10/30 18:13:13 by mtraichl          #+#    #+#             */
+/*   Updated: 2026/10/31 10:27:17 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_isalnum(int c)
+void    print_d_i(int n)
 {
-	if ((ft_isalpha(c) || ft_isdigit(c)))
-		return (1);
-	return (0);
+    ft_putnbr_fd(n, 1);   
 }

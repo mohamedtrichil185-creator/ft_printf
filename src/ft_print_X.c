@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_print_X.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/13 07:59:31 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/10/13 07:59:33 by mtraichl         ###   ########.fr       */
+/*   Created: 2026/10/30 19:00:58 by mtraichl          #+#    #+#             */
+/*   Updated: 2026/10/31 10:26:51 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_isalpha(int c)
+void    print_X(unsigned long n)
 {
-	if (!((c > 96 && c < 123) || (c > 64 && c < 91)))
-		return (0);
-	return (1);
+    if (n > 15)
+        print_x(n / 16);
+    write(1, &"0123456789ABCDEF"[n % 16], 1);
 }

@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_print_s.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/13 08:02:58 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/10/13 08:03:02 by mtraichl         ###   ########.fr       */
+/*   Created: 2026/10/30 18:15:29 by mtraichl          #+#    #+#             */
+/*   Updated: 2026/10/31 10:27:07 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+#include "ft_printf.h"
+
+void    print_s(const char *s)
 {
-	if (!lst)
-		return (NULL);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
+    ft_putstr_fd(s, 1);
 }

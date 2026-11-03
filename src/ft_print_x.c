@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   ft_print_x.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/13 12:33:44 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/10/13 12:33:47 by mtraichl         ###   ########.fr       */
+/*   Created: 2026/10/30 19:00:35 by mtraichl          #+#    #+#             */
+/*   Updated: 2026/10/31 10:26:57 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-int	ft_tolower(int c)
+#include "ft_printf.h"
+
+void    print_x(unsigned long n)
 {
-	if (c >= 'A' && c <= 'Z')
-		return (c + 32);
-	return (c);
+    if (n > 15)
+        print_x(n / 16);
+    write(1, &"0123456789abcdef"[n % 16], 1);
 }

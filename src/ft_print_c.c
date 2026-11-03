@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*   ft_print_c.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/13 08:00:14 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/10/13 08:00:15 by mtraichl         ###   ########.fr       */
+/*   Created: 2026/10/30 18:13:17 by mtraichl          #+#    #+#             */
+/*   Updated: 2026/10/31 10:27:20 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_isprint(int c)
+void print_c(char c)
 {
-	if (c >= 32 && c <= 126)
-		return (1);
-	return (0);
+    ft_putchar_fd(c, 1);
 }
