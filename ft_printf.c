@@ -6,7 +6,7 @@
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:40:40 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/01 15:31:19 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/05 11:24:36 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,16 @@ int	ft_printf(const char *format, ...)
 	
 	i = 0;
 	count = 0;
-	while (format[i])
+	while (*format)
 	{
-		
-		write(1, &format[i], 1);
-		if (format[i] == '%')
+		if (*format != '%')
+			write(1, format, 1);
+		if (*format == '%')
 		{
-			i++;
-			count += take_format(ap, format + i);
+			format++;
+			count += take_format(ap, &format);
 		}
-		if (format[i])
-			i++;
+		format++;
 		count++;
 	}
 	return (count);

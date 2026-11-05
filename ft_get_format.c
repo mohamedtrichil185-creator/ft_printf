@@ -43,34 +43,39 @@ bool	is_doth(char c)
 	return (c == '.');
 }
 
-t_flags	*set_flags(va_list ap, const char *format, t_flags *p)
+t_flags	*set_flags(va_list ap, const char **format, t_flags *p)
 {
 	char	num[7];
 	char	num1[7];
 	int	i;
 
-	while (!is_conversion(*format, "cspdiuxX%") && *format)
+	i = 0;
+	while (!is_conversion(**format, "cspdiuxX%") && **format)
 	{
-		if (is_flags(*format))
-			p = get_flags(*format, p);
-		if(is_width(*format))
+		if (is_flags(**format))
 		{
-			while (ft_isdigit(*format) && *format && i < 7)
-				num[i++] = *format++;
-			p->number = ft_atoi(num);
+			p = get_flags(**format, p);
+			(*format)++;
 		}
-		if (is_doth(*format) && *format)
+		if(is_width(**format))
 		{
-			format++;
-			if (ft_isdigit(*format))
+			while (ft_isdigit(**format) && **format && i < 7)
+				num[i++] = *(*format)++;
+			p->number = ft_atoi(num);
+			// (*format)--;
+		}
+		if (is_doth(**format) && **format)
+		{
+			(*format)++;
+			if (ft_isdigit(**format))
 			{
 				i = 0;
-				while (ft_isdigit(*format) && *format)
-					num1[i++] = *format++;
+				while (ft_isdigit(**format) && **format)
+					num1[i++] = *(*format)++;
 				p->doth_number = ft_atoi(num1);
 			}
 		}
-		format++;
+		// (*format)++;
 	}
 	return (p);
 }
@@ -124,7 +129,7 @@ void	print_struct(const t_flags *p)
 }
 
 
-int	take_format(va_list ap, const char *format)
+int	take_format(va_list ap, const char **format)
 {
 	t_flags *p;
 
@@ -134,8 +139,9 @@ int	take_format(va_list ap, const char *format)
 
 	p = ini_struct(p);
 	p = set_flags(ap, format, p);
-	print_struct(p);
 
-	get_conversion(ap, format, p);
+	get_conversion(ap, *format, p);
+	printf("\n\n");
+	print_struct(p);
 	return (1);
 }

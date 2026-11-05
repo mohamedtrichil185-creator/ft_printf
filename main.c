@@ -3,6 +3,8 @@
 
 int	main()
 {
-	ft_printf("wa fin a sat : %-5d", 55);
+
+
+	printf("wa fin a sat hani : haha %0.d", 55);
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 17:34:27 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/01 15:40:14 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/05 11:21:23 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include "libft.h"
 #include <stdarg.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 typedef struct s_flags
 {
@@ -33,7 +35,7 @@ typedef struct s_flags
 
 int	ft_printf(const char *format, ...);
 
-int take_format(va_list ap, const char *format);
+int take_format(va_list ap, const char **format);
 
 void	print_c(char c);
 void	print_x(unsigned long n);
