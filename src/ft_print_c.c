@@ -6,13 +6,14 @@
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 18:13:17 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/10/31 10:27:20 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/06 09:45:51 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void print_c(char c)
+int print_c(t_flags *p, char c)
 {
     ft_putchar_fd(c, 1);
+    return (1);
 }

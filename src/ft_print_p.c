@@ -6,19 +6,20 @@
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/31 10:07:05 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/10/31 10:27:14 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/05 16:01:33 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
  
-void    print_p(void *n)
+int print_p(t_flags *p, void *n)
 {
     if (n == NULL)
     {
         write(1, "(nil)", 5);
-        return ;
+        return  (0);
     }
     write(1, "0x", 2);
-    print_x((unsigned long)&n);
+    print_x(p, (unsigned long)&n);
+    return (1);
 }

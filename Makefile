@@ -48,7 +48,9 @@ SRC_LIBFT = libft/ft_isalnum.c \
 
 
 SRC_PRINTF = ft_get_format.c \
-	 ft_printf.c 
+	 ft_printf.c \
+       ft_tools1.c \
+       ft_tools2.c
 
 SRC = src/ft_print_d_i.c \
       src/ft_print_x.c \
