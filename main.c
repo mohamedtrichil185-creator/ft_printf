@@ -3,9 +3,21 @@
 
 int	main()
 {
+	int	ft;
+	int	original;
 
-	ft_printf("[%05.3d]", 44);
-	printf("[%05.3d]", 44);
-	//printf("sizeof printf   : %d\n", printf("[%-5.3s]", "moha"));
-	return 0;
+	printf("========== ZERO WITH PRECISION ZERO ==========\n");
+	ft = ft_printf("FT:      [%.0d]\n", 0);
+	original = printf("PRINTF:  [%.0d]\n", 0);
+	printf("Returns: ft=%d | printf=%d\n\n", ft, original);
+	return (0);
 }
+
+
+
+
+
+
+
+
+

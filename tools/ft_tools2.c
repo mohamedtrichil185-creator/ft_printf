@@ -1,6 +1,7 @@
 #include "ft_printf.h"
 
-static bool	is_flags(char  c)
+
+bool	is_flags(char  c)
 {
 	return (c == '-' || c == '+' || c == '0'|| c == '#' || c == ' ');
 }
@@ -37,14 +38,14 @@ t_flags	*set_flags(va_list ap, const char **format, t_flags *p)
 	{
 		if (is_flags(**format))
 		{
-			p = get_flags(**format, p);
+			p = get_flags(*format, p);
 			(*format)++;
 		}
 		if(is_width(**format))
 		{
 			while (ft_isdigit(**format) && **format && i < 7)
 				num[i++] = *(*format)++;
-			p->number_width = ft_atoi(num);
+			p->width = ft_atoi(num);
 			// (*format)--;
 		}
 		if (is_doth(**format) && **format)
@@ -57,6 +58,7 @@ t_flags	*set_flags(va_list ap, const char **format, t_flags *p)
 					num1[i++] = *(*format)++;
 				p->doth_number = ft_atoi(num1);
 			}
+			p->dot = 1;
 		}
 		// (*format)++;
 	}

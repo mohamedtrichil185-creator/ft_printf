@@ -6,7 +6,7 @@
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/31 10:07:05 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/05 16:01:33 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/11 12:20:30 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
  
 int print_p(t_flags *p, void *n)
 {
+    int  count;
+
+    count = 0;
     if (n == NULL)
     {
         write(1, "(nil)", 5);
         return  (0);
     }
-    write(1, "0x", 2);
-    print_x(p, (unsigned long)&n);
-    return (1);
+    count += write(1, "0x", 2);
+    count += print_x(p, (unsigned long)&n);
+    return (count);
 }

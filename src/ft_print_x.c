@@ -6,7 +6,7 @@
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 19:00:35 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/05 16:00:41 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/11 12:24:45 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,5 @@ int    print_x(t_flags *p,unsigned long n)
     if (n > 15)
         print_x(p, n / 16);
     write(1, &"0123456789abcdef"[n % 16], 1);
-    return (1);
+    return (get_len_of_number(n));
 }

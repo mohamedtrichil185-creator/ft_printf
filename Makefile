@@ -44,13 +44,15 @@ SRC_LIBFT = libft/ft_isalnum.c \
       libft/ft_putnbr_fd.c \
       libft/ft_lstdelone.c \
       libft/ft_lstmap.c \
-      libft/ft_lstiter.c \
+      libft/ft_lstiter.c 
 
 
 SRC_PRINTF = ft_get_format.c \
 	 ft_printf.c \
-       ft_tools1.c \
-       ft_tools2.c
+       tools/ft_tools1.c \
+       tools/ft_tools2.c \
+       tools/ft_ini_structs.c \
+       tools/set_man.c
 
 SRC = src/ft_print_d_i.c \
       src/ft_print_x.c \
@@ -58,7 +60,7 @@ SRC = src/ft_print_d_i.c \
       src/ft_print_p.c \
       src/ft_print_s.c \
       src/ft_print_c.c \
-      src/ft_print_u.c \
+      src/ft_print_u.c 
 
 INC = ft_printf.h \
        libft/libft.h

@@ -6,7 +6,7 @@
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 18:53:24 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/05 15:52:47 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/11 12:23:23 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ void	ft_putuni_fd(unsigned int number, int fd)
 int    print_u(t_flags *p, unsigned int n)
 {
     ft_putuni_fd(n, 1);
-    return (1);
+    return (get_len_of_number(n));
 }
