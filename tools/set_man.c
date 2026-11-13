@@ -1,37 +1,18 @@
 #include "ft_printf.h"
 
-void    get_perfix_signe_and_p_len(t_flags *p, t_man **m, int n)
-{
-    if (n < 0)
-    {
-        (*m)->perfix_type[0] = '-';
-        (*m)->perfix_len = 1;
-    }
-    else if (p->plus)
-    {
-        (*m)->perfix_type[0] = '+';
-        (*m)->perfix_len = 1;
-    }
-    else if (p->space)
-    {
-        (*m)->perfix_type[0] = ' ';
-        (*m)->perfix_len = 1;
-    }
-}
-
 void    get_perfix_0x(t_flags *p, t_man **m,unsigned long n)
 {
-    if (p->hash && n)
-    {
+    if (n)
+    {    
         (*m)->perfix_type[0] = '0';
         (*m)->perfix_type[1] = 'x';
         (*m)->perfix_len = 2;
-    }
+    }    
 }
 
 void    get_perfix_0X(t_flags *p, t_man **m, unsigned long n)
 {
-    if (p->hash && n)
+    if (n)
     {
         (*m)->perfix_type[0] = '0';
         (*m)->perfix_type[1] = 'X';

@@ -12,39 +12,25 @@
 
 #include "ft_printf.h"
 
-// int handl_space(t_flags *p, int n)
-// {
-//     int count;
-
-//     count = 0;
-//     if (p->number_width > get_len_of_number(n))
-//         count += ft_pad(' ', p->number_width - get_len_of_number(n));
-//     else
-//         count += ft_pad(' ', 1);
-//     if (p->doth_number > get_len_of_number(n))
-//         count += ft_pad('0', p->doth_number - get_len_of_number(n));
-//     ft_putnbr_fd(n, 1);
-//     return (count);
-// }
-
-// int handl_zero(t_flags *p, int n)
-// {
-//     int count;
-
-//     count = 0;
-//     if (p->number_width)
-//     {
-//         if (p->doth_number < p->number_width)
-//         {
-//             count += ft_pad(' ', p->number_width - p->doth_number);
-//             count += ft_pad('0', p->doth_number - get_len_of_number(n));
-//         }
-//         else  
-//             count += ft_pad('0', p->doth_number - get_len_of_number(n));
-//     }
-//     ft_putnbr_fd(n, 1);
-//     return (count);
-// }
+static void    get_num(long long nb, t_flags *p, t_man *m, int *count)
+{
+    if (m->left)
+    {
+        if (m->perfix_len)
+            *count += ft_pad(m->perfix_type[0], 1);
+        *count += ft_pad('0', m->zeros);
+        print_u(p, nb);
+        *count += ft_pad(' ', m->pad);
+    }
+    else
+    {
+        *count += ft_pad(' ', m->pad);
+        if (m->perfix_len)
+            *count += ft_pad(m->perfix_type[0], 1);
+        *count += ft_pad('0', m->zeros);
+        print_u(p, nb);
+    }
+}
 
 int    print_d_i(t_flags *p, int n, t_man *m)
 {
@@ -57,27 +43,9 @@ int    print_d_i(t_flags *p, int n, t_man *m)
     m->src_len = get_len_of_number(n);
     set_man(p, &m);
     if (nb < 0)
-    {
         nb = -nb;
-    }
-
     if (!nb && !p->doth_number)
         return (0);
-    else if (m->left)
-    {
-        if (m->perfix_len)
-            count += ft_pad(m->perfix_type[0], 1);
-        count += ft_pad('0', m->zeros);
-        print_u(p, nb);
-        count += ft_pad(' ', m->pad);
-    }
-    else
-    {
-        count += ft_pad(' ', m->pad);
-        if (m->perfix_len)
-            count += ft_pad(m->perfix_type[0], 1);
-        count += ft_pad('0', m->zeros);
-        print_u(p, nb);
-    }
+    get_num(nb, p, m, &count);
     return (count);
 }

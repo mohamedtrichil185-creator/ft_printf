@@ -1,5 +1,24 @@
 #include "ft_printf.h"
 
+void    get_perfix_signe_and_p_len(t_flags *p, t_man **m, int n)
+{
+    if (n < 0)
+    {
+        (*m)->perfix_type[0] = '-';
+        (*m)->perfix_len = 1;
+    }
+    else if (p->plus)
+    {
+        (*m)->perfix_type[0] = '+';
+        (*m)->perfix_len = 1;
+    }
+    else if (p->space)
+    {
+        (*m)->perfix_type[0] = ' ';
+        (*m)->perfix_len = 1;
+    }
+}
+
 int get_len_of_number(int n)
 {
     int count;
@@ -31,11 +50,11 @@ int	get_conversion(va_list ap, const char *format, t_flags *p, t_man *m)
 	if (*format == 'c')
 		count += print_c(p, va_arg(ap, int), m);
 	else if (*format == 's')
-		count += print_s(p, va_arg(ap, char *));
+		count += print_s(p, va_arg(ap, char *), m);
 	else if (*format == 'd' || *format == 'i')
 		count += print_d_i(p, va_arg(ap, int), m);
 	else if (*format == 'p')
-		count += print_p(p, va_arg(ap, void *));
+		count += print_p(p, va_arg(ap, void *), m);
 	else if (*format == 'x')
 		count += print_x(p, va_arg(ap, unsigned long));
 	else if (*format == 'X')

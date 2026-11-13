@@ -6,7 +6,7 @@
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 17:34:27 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/12 14:29:13 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/13 10:59:28 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int	print_c(t_flags *p, char c, t_man *m);
 int	print_x(t_flags *p, unsigned long n);
 int	print_X(t_flags *p, unsigned long n);
 int	print_d_i(t_flags *p, int n, t_man *m);
-int	print_p(t_flags *p, void *n);
+int	print_p(t_flags *p, void *n, t_man *m);
 int	print_u(t_flags *p, unsigned int n);
-int	print_s(t_flags *p, const char *s);
+int	print_s(t_flags *p, const char *s, t_man *m);
 
 t_man	*ini_man(t_man *p);
 

@@ -3,21 +3,9 @@
 
 int	main()
 {
-	int	ft;
-	int	original;
+	int	a;
 
-	printf("========== ZERO WITH PRECISION ZERO ==========\n");
-	ft = ft_printf("FT:      [%.0d]\n", 0);
-	original = printf("PRINTF:  [%.0d]\n", 0);
-	printf("Returns: ft=%d | printf=%d\n\n", ft, original);
-	return (0);
+	a = 10;
+	ft_printf("[%10.3s]\n", (char *)NULL);
+	printf("[%10.3s]\n", (char *)NULL);
 }
-
-
-
-
-
-
-
-
-
