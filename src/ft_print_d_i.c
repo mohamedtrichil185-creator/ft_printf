@@ -6,20 +6,20 @@
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 18:13:13 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/12 17:00:55 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/14 11:08:26 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void    get_num(long long nb, t_flags *p, t_man *m, int *count)
+static void    get_num(long long nb, t_man *m, int *count)
 {
     if (m->left)
     {
         if (m->perfix_len)
             *count += ft_pad(m->perfix_type[0], 1);
         *count += ft_pad('0', m->zeros);
-        print_u(p, nb);
+        print_u(nb);
         *count += ft_pad(' ', m->pad);
     }
     else
@@ -28,7 +28,7 @@ static void    get_num(long long nb, t_flags *p, t_man *m, int *count)
         if (m->perfix_len)
             *count += ft_pad(m->perfix_type[0], 1);
         *count += ft_pad('0', m->zeros);
-        print_u(p, nb);
+        print_u(nb);
     }
 }
 
@@ -45,7 +45,10 @@ int    print_d_i(t_flags *p, int n, t_man *m)
     if (nb < 0)
         nb = -nb;
     if (!nb && !p->doth_number)
-        return (0);
-    get_num(nb, p, m, &count);
+    {
+        ft_putnbr_fd(0, 1);
+        return (count);
+    }
+    get_num(nb, m, &count);
     return (count);
 }

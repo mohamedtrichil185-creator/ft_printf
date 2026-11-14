@@ -1,6 +1,6 @@
 NAME = libftprintf.a
 
-CFLAGS = -Wall  -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 SRC_LIBFT = libft/ft_isalnum.c \
       libft/ft_isalpha.c \
@@ -47,11 +47,9 @@ SRC_LIBFT = libft/ft_isalnum.c \
       libft/ft_lstiter.c 
 
 
-SRC_PRINTF = ft_get_format.c \
-	 ft_printf.c \
-       tools/ft_tools1.c \
+SRC_PRINTF = tools/ft_tools1.c \
        tools/ft_tools2.c \
-       tools/ft_ini_structs.c \
+       tools/ft_ini_structs_bonus.c \
        tools/set_man.c
 
 SRC = src/ft_print_d_i.c \
@@ -60,9 +58,11 @@ SRC = src/ft_print_d_i.c \
       src/ft_print_p.c \
       src/ft_print_s.c \
       src/ft_print_c.c \
-      src/ft_print_u.c 
+      src/ft_print_u.c \
+      src/ft_take_format.c \
+	src/ft_printf.c 
 
-INC = ft_printf.h \
+INC = includes/ft_printf.h \
        libft/libft.h
 
 OBJ = $(SRC:.c=.o)
@@ -77,7 +77,7 @@ $(NAME) : $(OBJ) $(OBJ_LIBFT) $(OBJ_IN)
 	ar rcs $(NAME)  $(OBJ) $(OBJ_LIBFT) $(OBJ_IN)
 
 %.o : %.c $(INC)
-	cc $(CFLAGS) -g -I. -Ilibft -c $< -o $@
+	cc $(CFLAGS) -g -Iincludes -Ilibft -c $< -o $@
 
 clean :
 	rm -f $(OBJ) $(OBJ_LIBFT) $(OBJ_IN)

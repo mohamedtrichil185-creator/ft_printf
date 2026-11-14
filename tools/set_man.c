@@ -1,24 +1,24 @@
 #include "ft_printf.h"
 
-void    get_perfix_0x(t_flags *p, t_man **m,unsigned long n)
-{
-    if (n)
-    {    
-        (*m)->perfix_type[0] = '0';
-        (*m)->perfix_type[1] = 'x';
-        (*m)->perfix_len = 2;
-    }    
-}
+// void    get_perfix_0x(t_flags *p, t_man **m,unsigned long n)
+// {
+//     if (n)
+//     {    
+//         (*m)->perfix_type[0] = '0';
+//         (*m)->perfix_type[1] = 'x';
+//         (*m)->perfix_len = 2;
+//     }    
+// }
 
-void    get_perfix_0X(t_flags *p, t_man **m, unsigned long n)
-{
-    if (n)
-    {
-        (*m)->perfix_type[0] = '0';
-        (*m)->perfix_type[1] = 'X';
-        (*m)->perfix_len = 2;
-    }
-}
+// void    get_perfix_0X(t_flags *p, t_man **m, unsigned long n)
+// {
+//     if (n)
+//     {
+//         (*m)->perfix_type[0] = '0';
+//         (*m)->perfix_type[1] = 'X';
+//         (*m)->perfix_len = 2;
+//     }
+// }
 
 void    get_zeros(t_man **m, t_flags *p)
 {
@@ -42,7 +42,7 @@ void    get_zeros(t_man **m, t_flags *p)
 
 void    get_width(t_man **m, t_flags *p)
 {
-    int total;
+    size_t total;
 
     total = (*m)->perfix_len + (*m)->zeros + (*m)->src_len;
     if (p->width > total)

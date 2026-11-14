@@ -16,6 +16,7 @@ static bool	is_doth(char c)
 	return (c == '.');
 }
 
+
 static bool	is_conversion(char c, char *conversion)
 {
 	while (*conversion)
@@ -27,7 +28,7 @@ static bool	is_conversion(char c, char *conversion)
 	return (false);
 }
 
-t_flags	*set_flags(va_list ap, const char **format, t_flags *p)
+t_flags	*set_flags(const char **format, t_flags *p)
 {
 	char	num[7];
 	char	num1[7];

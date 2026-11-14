@@ -24,6 +24,8 @@ int get_len_of_number(int n)
     int count;
 
     count = 0;
+	if (n == 0)
+		count++;
     while (n)
     {
         count++;
@@ -42,30 +44,14 @@ int ft_pad(int c, int size)
     return (count);
 }
 
-int	get_conversion(va_list ap, const char *format, t_flags *p, t_man *m)
+t_flags	*clean_flags(t_flags *f)
 {
-	int	count;
-
-	count = 0;
-	if (*format == 'c')
-		count += print_c(p, va_arg(ap, int), m);
-	else if (*format == 's')
-		count += print_s(p, va_arg(ap, char *), m);
-	else if (*format == 'd' || *format == 'i')
-		count += print_d_i(p, va_arg(ap, int), m);
-	else if (*format == 'p')
-		count += print_p(p, va_arg(ap, void *), m);
-	else if (*format == 'x')
-		count += print_x(p, va_arg(ap, unsigned long));
-	else if (*format == 'X')
-		count += print_X(p, va_arg(ap, unsigned long));
-	else if (*format == '%')
-		count += print_c(p, '%', m);
-	else 
-		count += print_c(p, va_arg(ap, int), m);
-	return (count);
+	if (f->mines || f->dot)
+		f->zero = 0;
+	if (f->plus)
+		f->space = 0;
+	return (f);
 }
-
 
 t_flags	*get_flags(const char *c,t_flags *p)
 {
