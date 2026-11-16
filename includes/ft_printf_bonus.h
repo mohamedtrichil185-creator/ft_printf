@@ -37,8 +37,8 @@ int take_format(va_list ap, const char **format);
 int	get_conversion(va_list ap, const char *format, t_flags *p, t_man *m);
 
 int	print_c(t_flags *p, char c, t_man *m);
-int	print_hex_lower(t_flags *p, unsigned long n);
-int	print_hex_upper(t_flags *p, unsigned long n);
+int	print_hex_lower(t_flags *p, unsigned int n);
+int	print_hex_upper(t_flags *p, unsigned int n);
 int	print_d_i(t_flags *p, int n, t_man *m);
 int	print_p(t_flags *p, void *n, t_man *m);
 int	print_u(unsigned int n);
@@ -46,8 +46,8 @@ int	print_s(t_flags *p, const char *s, t_man *m);
 
 void    set_man(t_flags *p, t_man **m);
 void    get_perfix_signe_and_p_len(t_flags *p, t_man **m, int n);
-void    get_perfix_0x(t_flags *p, t_man **m,unsigned long n);
-void    get_perfix_0X(t_flags *p, t_man **m, unsigned long n);
+// void    get_perfix_0x(t_flags *p, t_man **m,unsigned long n);
+// void    get_perfix_0X(t_flags *p, t_man **m, unsigned long n);
 bool	is_flags(char  c);
 
 t_flags	*set_flags(const char **format, t_flags *p);

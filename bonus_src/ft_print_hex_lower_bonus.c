@@ -18,7 +18,7 @@ int    print_hex_lower(t_flags *p, unsigned int n)
 
     count = 0;
     if (n > 15)
-        count += print_hex_lowerbt(p, n / 16);
+        count += print_hex_lower(p, n / 16);
     count += write(1, &"0123456789abcdef"[n % 16], 1);
     return (count);
 }
