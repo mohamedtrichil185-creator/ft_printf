@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_print_p.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/30 16:40:40 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/14 11:43:57 by mtraichl         ###   ########.fr       */
+/*   Created: 2026/10/31 10:07:05 by mtraichl          #+#    #+#             */
+/*   Updated: 2026/10/31 10:27:14 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int ft_printf(const char *format, ...)
+static int    print_x1(int *count, unsigned long n, int size)
 {
-    va_list ap;
-    int     count;
+    int count;
 
     count = 0;
-    va_start(ap, format);
-    while (*format)
-    {
-        if (*format == '%')
-        {
-            format++;
-            count += take_format(ap, &format);
-            if (!*format)
-                break ;
-        }
-        else
-            count += write(1, format, 1);
-        format++;
-    }
-    va_end(ap);
+    if (n > 15)
+        count = print_x1(n / 16);
+    put_len(count, &"0123456789abcdef"[n % 16], 1);
     return (count);
+}
+
+int	print_p(void *n)
+{
+	int	count;
+
+	count = 0;
+	if (n == NULL)
+	{
+		put_len(&count, "(nil)", 5);
+		return (count);
+	}
+	put_len(&count, "0x", 2);
+	count += print_x1((unsigned long)n);
+	return (count);
 }

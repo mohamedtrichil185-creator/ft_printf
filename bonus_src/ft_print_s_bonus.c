@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_s.c                                       :+:      :+:    :+:   */
+/*   ft_print_s_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 18:15:29 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/14 10:17:55 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/15 04:13:19 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 static void hanld_NULL(t_flags *p, t_man *m, int *count)
 {

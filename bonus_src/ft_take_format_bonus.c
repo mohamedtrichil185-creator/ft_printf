@@ -1,4 +1,4 @@
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 // void	print_struct(const t_flags *p)
 // {
@@ -27,9 +27,11 @@ int	get_conversion(va_list ap, const char *format, t_flags *p, t_man *m)
 	else if (*format == 'p')
 		count += print_p(p, va_arg(ap, void *), m);
 	else if (*format == 'x')
-		count += print_x(p, va_arg(ap, unsigned long));
+		count += print_hex_lower(p, va_arg(ap, unsigned int));
 	else if (*format == 'X')
-		count += print_X(p, va_arg(ap, unsigned long));
+		count += print_hex_upper(p, va_arg(ap, unsigned int));
+    // else if (*format == 'u')
+    //     count += print_u(p, va_arg(ap, unsigned long), m);
 	else if (*format == '%')
 		count += print_c(p, '%', m);
 	return (count);

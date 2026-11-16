@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_d_i.c                                     :+:      :+:    :+:   */
+/*   ft_print_d_i_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 18:13:13 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/14 11:08:26 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/15 04:13:07 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 static void    get_num(long long nb, t_man *m, int *count)
 {

@@ -1,90 +1,77 @@
 NAME = libftprintf.a
 
+BONUS_MARK = .bonus
+
 CFLAGS = -Wall -Wextra -Werror
 
-SRC_LIBFT = libft/ft_isalnum.c \
-      libft/ft_isalpha.c \
-      libft/ft_isascii.c \
-      libft/ft_isdigit.c \
-      libft/ft_isprint.c \
-      libft/ft_memchr.c \
-      libft/ft_memcmp.c \
-      libft/ft_memcpy.c \
-      libft/ft_memmove.c \
-      libft/ft_putchar_fd.c \
-      libft/ft_putstr_fd.c \
-      libft/ft_split.c \
-      libft/ft_strchr.c \
-      libft/ft_strdup.c \
-      libft/ft_striteri.c \
-      libft/ft_strlcat.c \
-      libft/ft_strlcpy.c \
-      libft/ft_strlen.c \
-      libft/ft_strncmp.c \
-      libft/ft_strnstr.c \
-      libft/ft_strrchr.c \
-      libft/ft_strtrim.c \
-      libft/ft_tolower.c \
-      libft/ft_toupper.c \
-      libft/ft_atoi.c \
-      libft/ft_calloc.c \
-      libft/ft_strmapi.c \
-      libft/ft_memset.c \
-      libft/ft_itoa.c \
-      libft/ft_strjoin.c \
-      libft/ft_substr.c \
-      libft/ft_putendl_fd.c \
-      libft/ft_bzero.c \
-      libft/ft_lstclear.c \
-      libft/ft_lstlast.c \
-      libft/ft_lstnew.c \
-      libft/ft_lstsize.c \
-      libft/ft_lstadd_back.c \
-      libft/ft_lstadd_front.c \
-      libft/ft_putnbr_fd.c \
-      libft/ft_lstdelone.c \
-      libft/ft_lstmap.c \
-      libft/ft_lstiter.c 
+CC = cc
 
+LIBFT = libft/libft.a
 
-SRC_PRINTF = tools/ft_tools1.c \
-       tools/ft_tools2.c \
-       tools/ft_ini_structs_bonus.c \
-       tools/set_man.c
+LIBFT_INCLUDES = -Ilibft
 
-SRC = src/ft_print_d_i.c \
-      src/ft_print_x.c \
-      src/ft_print_X.c \
-      src/ft_print_p.c \
-      src/ft_print_s.c \
-      src/ft_print_c.c \
-      src/ft_print_u.c \
-      src/ft_take_format.c \
-	src/ft_printf.c 
+MAN_INCLUDES = -Iincludes
 
-INC = includes/ft_printf.h \
-       libft/libft.h
+BONUS_INCLUDES = -Iincludes
 
-OBJ = $(SRC:.c=.o)
+INC = libft/libft.h \
+      includes/ft_printf.h \
+      includes/ft_printf_bonus.h
 
-OBJ_IN = $(SRC_PRINTF:.c=.o)
+MAN_SRC = man_src/ft_print_d_i.c \
+      man_src/ft_print_hex_lower.c \
+      man_src/ft_print_hex_upper.c \
+      man_src/ft_print_p.c \
+      man_src/ft_print_s.c \
+      man_src/ft_print_c.c \
+      man_src/ft_print_u.c \
+      man_src/ft_printf.c
 
-OBJ_LIBFT = $(SRC_LIBFT:.c=.o)
+BONUS_SRC = bonus_src/ft_print_c_bonus.c \
+            bonus_src/ft_print_d_i_bonus.c \
+            bonus_src/ft_print_p_bonus.c \
+            bonus_src/ft_print_s_bonus.c \
+            bonus_src/ft_print_u_bonus.c \
+            bonus_src/ft_print_hex_lower_bonus.c \
+            bonus_src/ft_print_hex_upper_bonus.c \
+            bonus_src/ft_ini_structs_bonus.c \
+            bonus_src/ft_printf_bonus.c \
+            bonus_src/ft_set_man_bonus.c \
+            bonus_src/ft_take_format_bonus.c \
+            bonus_src/ft_tools1_bonus.c \
+            bonus_src/ft_tools2_bonus.c
+
+BONUS_OBJ = $(BONUS_SRC:.c=.o)
+
+MAN_OBJ = $(MAN_SRC:.c=.o)
 
 all : $(NAME)
 
-$(NAME) : $(OBJ) $(OBJ_LIBFT) $(OBJ_IN)
-	ar rcs $(NAME)  $(OBJ) $(OBJ_LIBFT) $(OBJ_IN)
+$(NAME) : $(MAN_OBJ)
+	$(MAKE) -C libft
+	cp $(LIBFT) $(NAME)
+	ar rcs $(NAME) $(MAN_OBJ)
+
+bonus : $(BONUS_MARK)
+
+$(BONUS_MARK) : $(BONUS_OBJ)
+	$(MAKE) -C libft
+	cp $(LIBFT) $(NAME)
+	ar rcs $(NAME) $(BONUS_OBJ)
+	touch $(BONUS_MARK)
+
 
 %.o : %.c $(INC)
-	cc $(CFLAGS) -g -Iincludes -Ilibft -c $< -o $@
+	$(CC) -g $(CFLAGS) $(MAN_INCLUDES) $(BONUS_INCLUDES) $(LIBFT_INCLUDES) -c $< -o $@
 
 clean :
-	rm -f $(OBJ) $(OBJ_LIBFT) $(OBJ_IN)
+	$(MAKE) -C libft clean
+	rm -f $(MAN_OBJ) $(BONUS_OBJ)
 
 fclean : clean
+	$(MAKE) -C libft fclean
 	rm -f $(NAME)
 
 re : fclean all
 
-.PHONY: clean
+.PHONY : clean

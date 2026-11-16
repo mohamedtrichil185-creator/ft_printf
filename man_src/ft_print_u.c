@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_c.c                                       :+:      :+:    :+:   */
+/*   ft_print_u.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/30 18:13:17 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/12 14:39:15 by mtraichl         ###   ########.fr       */
+/*   Created: 2026/10/30 18:53:24 by mtraichl          #+#    #+#             */
+/*   Updated: 2026/10/31 10:27:03 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int print_c(t_flags *p, char c, t_man *m)
+int	ft_putuni_fd(unsigned int number, int fd)
 {
-    int  count;
+	int	count;
 
-    count = 1;
-    m->src_len = 1;
-    set_man(p, &m);
-    if (m->left)
-    {
-        ft_putchar_fd(c, 1);
-        count += ft_pad(' ', m->pad);
-    }
-    else
-    {
-        count += ft_pad(' ', m->pad);
-        ft_putchar_fd(c, 1);
-    }
-    return (count);
+	count = 0;
+	if (number > 9)
+		count += ft_putuni_fd(number / 10, fd);
+	ft_putchar_fd((number % 10) + '0', fd);
+	count++;
+	return (count);
+}
+
+int	print_u(unsigned int n)
+{
+	return (ft_putuni_fd(n, 1));
 }

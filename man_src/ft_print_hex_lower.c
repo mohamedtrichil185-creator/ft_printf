@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_u.c                                       :+:      :+:    :+:   */
+/*   ft_print_hex_lower.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/30 18:53:24 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/14 11:07:10 by mtraichl         ###   ########.fr       */
+/*   Created: 2026/10/30 19:00:35 by mtraichl          #+#    #+#             */
+/*   Updated: 2026/11/15 18:48:32 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putuni_fd(unsigned int number, int fd)
+int	print_hex_lower(unsigned int n)
 {
-    if (number > 9)
-		ft_putuni_fd(number / 10, fd);
-	ft_putchar_fd((number % 10) + '0', fd);
-}
+	int	count;
+	int	tmp;
 
-int    print_u(unsigned int n)
-{
-    ft_putuni_fd(n, 1);
-    return (get_len_of_number(n));
+	tmp = 0;
+	count = 0;
+	if (n > 15)
+	{
+		count += print_hex_lower(n / 16);
+		if (count < 0)
+			return (-1);
+	}
+	tmp = write(1, &"0123456789abcdef"[n % 16], 1);
+	if (tmp < 0)
+		return (-1);
+	count += tmp;
+	return (count);
 }

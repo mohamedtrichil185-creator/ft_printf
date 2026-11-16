@@ -6,7 +6,7 @@
 /*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 17:34:27 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/14 11:20:58 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/15 18:40:05 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,16 @@
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include "ft_printf_bonus.h"
 
-int	ft_printf(const char *format, ...);
+int ft_printf(const char *s, ...);
+void put_len(int *count, const char *s, size_t size);
 
-int take_format(va_list ap, const char **format);
-
-int	get_conversion(va_list ap, const char *format, t_flags *p, t_man *m);
-
-int	print_c(t_flags *p, char c, t_man *m);
-int	print_x(t_flags *p, unsigned long n);
-int	print_X(t_flags *p, unsigned long n);
-int	print_d_i(t_flags *p, int n, t_man *m);
-int	print_p(t_flags *p, void *n, t_man *m);
+int	print_c(char c);
+int	print_hex_lower(unsigned int n);
+int print_hex_upper(unsigned int n);
+int	print_d_i(int n);
+int	print_p(void *n);
 int	print_u(unsigned int n);
-int	print_s(t_flags *p, const char *s, t_man *m);
+int	print_s(const char *s);
 
 #endif
