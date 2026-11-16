@@ -30,6 +30,8 @@ typedef struct s_man
 } t_man;
 
 
+void    put_nbr_len(int *count, int n);
+
 int	ft_printf(const char *format, ...);
 
 int take_format(va_list ap, const char **format);

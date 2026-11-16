@@ -16,8 +16,7 @@ int	write_len(const char *s, size_t size)
 
 int	main()
 {
-	int	i = ft_printf(" %x ", LONG_MAX);
-
+	int i = ft_printf("%.0d", 0);
 	ft_putnbr_fd(i, 1);
 	return (0);
 }

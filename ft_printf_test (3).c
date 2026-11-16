@@ -6,10 +6,13 @@
 /*                                                                            */
 /*   Covers:                                                                  */
 /*     - Mandatory conversions: %c %s %p %d %i %u %x %X %%                    */
-/*     - Bonus flags:        '-' '0' '.' '*' '#' ' ' '+'                       */
-/*     - Field width & precision (literals and '*' dynamic values)            */
-/*     - Combinations of multiple flags                                       */
-/*     - Edge cases (NULL string, INT_MIN, 0, negative width, etc.)           */
+/*     - Bonus flags (as per the 1337 subject):                                */
+/*         * '-' '0' '.'  and the field minimum width (literal digits)        */
+/*         * '#' ' ' '+'                                                       */
+/*       (NOTE: the '*' wildcard is NOT part of the 1337 bonus and is NOT     */
+/*        tested here. If you implement it anyway, these tests still pass.)   */
+/*     - Combinations of multiple flags                                        */
+/*     - Edge cases (NULL string, INT_MIN, 0, etc.)                            */
 /*                                                                            */
 /*   How to use:                                                              */
 /*     1) Compile your libftprintf.a (or .so) as usual.                        */
@@ -18,7 +21,8 @@
 /*                                                                            */
 /*        NOTE: the real printf throws -Wformat warnings on a few valid       */
 /*        runtime constructs used here (e.g. "%-5%", "%s" with NULL,          */
-/*        "%+08.3d").  Do NOT compile this test with -Werror -Wformat.        */
+/*        "%+08.3d").  These are silenced with #pragma GCC diagnostic          */
+/*        inside the REAL_PRINTF macro, so you CAN keep -Werror.              */
 /*     3) ./test            -> runs every test, prints OK / KO per case        */
 /*     4) ./test --diff     -> also prints the diff when a case fails         */
 /*                                                                            */
@@ -134,7 +138,25 @@ static void add_test(const char *name, void (*real_fn)(void), void (*ft_fn)(void
 /*  Each test function declares `int r;` so we store the return value        */
 /*  there (and silence unused warnings with `(void)r;`).                      */
 /*                                                                            */
-#define REAL_PRINTF(...)  r = printf(__VA_ARGS__)
+/*  We deliberately use a few format strings that gcc's static checker      */
+/*  complains about but that the runtime printf handles correctly:           */
+/*    - "%08.3d"   -> '0' flag ignored with precision (precision wins, fine) */
+/*    - "%5%", "%-5%"  -> gcc parses % as a partial conversion, printf ok   */
+/*    - "%s", NULL     -> gcc warns about null arg, printf prints "(null)"    */
+/*  So we silence -Wformat and -Wformat-overflow here, ONLY for the real    */
+/*  printf call.  ft_printf is your function and gcc won't check its format.  */
+/*                                                                            */
+#define REAL_PRINTF(...)                                                     \
+    do {                                                                     \
+        _Pragma("GCC diagnostic push")                                       \
+        _Pragma("GCC diagnostic ignored \"-Wformat\"")                       \
+        _Pragma("GCC diagnostic ignored \"-Wformat-overflow\"")              \
+        _Pragma("GCC diagnostic ignored \"-Wformat-truncation\"")            \
+        _Pragma("GCC diagnostic ignored \"-Wformat-security\"")             \
+        r = printf(__VA_ARGS__);                                             \
+        _Pragma("GCC diagnostic pop")                                        \
+    } while (0)
+
 #define FT_PRINTF(...)    r = ft_printf(__VA_ARGS__)
 
 /* -------------------------------------------------------------------------- */
@@ -158,8 +180,6 @@ static void t_c_w_ft  (void) { int r; FT_PRINTF ("%5c", 'X'); (void)r; }
 static void t_c_minus_real(void) { int r; REAL_PRINTF("%-5c|", 'X'); (void)r; }
 static void t_c_minus_ft  (void) { int r; FT_PRINTF ("%-5c|", 'X'); (void)r; }
 
-static void t_c_star_real(void) { int r; REAL_PRINTF("%*c", 7, 'Z'); (void)r; }
-static void t_c_star_ft  (void) { int r; FT_PRINTF ("%*c", 7, 'Z'); (void)r; }
 
 /* -------------------------------------------------------------------------- */
 /*  %s  -  string                                                             */
@@ -189,9 +209,6 @@ static void t_s_prec_ft  (void) { int r; FT_PRINTF ("%.3s", "hello"); (void)r; }
 
 static void t_s_w_prec_real(void) { int r; REAL_PRINTF("%10.3s|", "hello"); (void)r; }
 static void t_s_w_prec_ft  (void) { int r; FT_PRINTF ("%10.3s|", "hello"); (void)r; }
-
-static void t_s_star_w_p_real(void) { int r; REAL_PRINTF("%*.*s", 8, 3, "hello"); (void)r; }
-static void t_s_star_w_p_ft  (void) { int r; FT_PRINTF ("%*.*s", 8, 3, "hello"); (void)r; }
 
 static void t_s_minus_prec_real(void) { int r; REAL_PRINTF("%-8.3s|", "hello"); (void)r; }
 static void t_s_minus_prec_ft  (void) { int r; FT_PRINTF ("%-8.3s|", "hello"); (void)r; }
@@ -264,15 +281,6 @@ static void t_d_space_ft  (void) { int r; FT_PRINTF ("% d", 42); (void)r; }
 
 static void t_d_plus_neg_real(void) { int r; REAL_PRINTF("%+d", -42); (void)r; }
 static void t_d_plus_neg_ft  (void) { int r; FT_PRINTF ("%+d", -42); (void)r; }
-
-static void t_d_star_w_real(void) { int r; REAL_PRINTF("%*d", 10, 7); (void)r; }
-static void t_d_star_w_ft  (void) { int r; FT_PRINTF ("%*d", 10, 7); (void)r; }
-
-static void t_d_star_p_real(void) { int r; REAL_PRINTF("%.*d", 5, 7); (void)r; }
-static void t_d_star_p_ft  (void) { int r; FT_PRINTF ("%.*d", 5, 7); (void)r; }
-
-static void t_d_star_neg_w_real(void) { int r; REAL_PRINTF("%*d", -10, 7); (void)r; }
-static void t_d_star_neg_w_ft  (void) { int r; FT_PRINTF ("%*d", -10, 7); (void)r; }
 
 /* combination: 0 + precision (precision wins) */
 static void t_d_zero_prec_real(void) { int r; REAL_PRINTF("%08.3d", 42); (void)r; }
@@ -379,9 +387,6 @@ static void t_mix1_ft  (void) { int r; FT_PRINTF ("Hello %s, score=%d%%\n", "Wor
 static void t_mix2_real(void) { int r; REAL_PRINTF("%+08.3d|%-5s|%#x", 42, "hi", 0xff); (void)r; }
 static void t_mix2_ft  (void) { int r; FT_PRINTF ("%+08.3d|%-5s|%#x", 42, "hi", 0xff); (void)r; }
 
-static void t_mix3_real(void) { int r; REAL_PRINTF("[%*d][%.*s][%#X]", 8, 7, 3, "abcdef", 0xa); (void)r; }
-static void t_mix3_ft  (void) { int r; FT_PRINTF ("[%*d][%.*s][%#X]", 8, 7, 3, "abcdef", 0xa); (void)r; }
-
 static void t_mix4_real(void) { int r; REAL_PRINTF("%c%c%c%c%c", '4','2',' ','!','\n'); (void)r; }
 static void t_mix4_ft  (void) { int r; FT_PRINTF ("%c%c%c%c%c", '4','2',' ','!','\n'); (void)r; }
 
@@ -397,7 +402,6 @@ static void register_tests(void)
     add_test("%c multi '4','2','!'",        t_c_num_real,    t_c_num_ft);
     add_test("%c width %5c",                t_c_w_real,      t_c_w_ft);
     add_test("%c minus %-5c|",              t_c_minus_real,  t_c_minus_ft);
-    add_test("%c star %*c",                 t_c_star_real,   t_c_star_ft);
 
     /* %s */
     add_test("basic %s",                    t_s_real,        t_s_ft);
@@ -408,7 +412,6 @@ static void register_tests(void)
     add_test("%s minus %-10s|",             t_s_minus_real,  t_s_minus_ft);
     add_test("%s prec %.3s",                t_s_prec_real,   t_s_prec_ft);
     add_test("%s w+prec %10.3s|",           t_s_w_prec_real, t_s_w_prec_ft);
-    add_test("%s star w+p %*.*s",           t_s_star_w_p_real, t_s_star_w_p_ft);
     add_test("%s minus+prec %-8.3s|",       t_s_minus_prec_real, t_s_minus_prec_ft);
     add_test("%s prec zero %.0s",           t_s_prec_zero_real, t_s_prec_zero_ft);
 
@@ -434,9 +437,6 @@ static void register_tests(void)
     add_test("%d plus %+d",                 t_d_plus_real,   t_d_plus_ft);
     add_test("%d space % d",                t_d_space_real,  t_d_space_ft);
     add_test("%d plus neg %+d -42",         t_d_plus_neg_real, t_d_plus_neg_ft);
-    add_test("%d star width %*d",           t_d_star_w_real, t_d_star_w_ft);
-    add_test("%d star prec %.*d",           t_d_star_p_real, t_d_star_p_ft);
-    add_test("%d star neg width %*d",       t_d_star_neg_w_real, t_d_star_neg_w_ft);
     add_test("%d zero+prec %08.3d",         t_d_zero_prec_real, t_d_zero_prec_ft);
     add_test("%d plus+zero %+08d",          t_d_plus_zero_real, t_d_plus_zero_ft);
     add_test("%d space+width % 8d",         t_d_space_w_real, t_d_space_w_ft);
@@ -473,7 +473,6 @@ static void register_tests(void)
     /* mixed */
     add_test("mix: Hello %s score=%d%%",    t_mix1_real,     t_mix1_ft);
     add_test("mix: %+08.3d|%-5s|%#x",      t_mix2_real,     t_mix2_ft);
-    add_test("mix: [%*d][%.*s][%#X]",      t_mix3_real,     t_mix3_ft);
     add_test("mix: 5 chars",                t_mix4_real,     t_mix4_ft);
 }
 

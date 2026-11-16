@@ -12,6 +12,28 @@
 
 #include "ft_printf_bonus.h"
 
+void    put_nbr_len(int *count, int n)
+{
+    char c;
+
+    if (n == -2147483648)
+    {
+	    put_len(count, "-2147483648", 11);
+	    return ;
+    }
+
+    if (n < 0)
+    {
+	    n = -n;
+	    put_len(count, "-", 1);
+    }
+
+    if (n >= 10)
+        put_nbr_len(count, n / 10);
+    c = n % 10 + '0';
+    put_len(count, &c, 1);
+}
+
 static void    get_num(long long nb, t_man *m, int *count)
 {
     if (m->left)
@@ -44,10 +66,15 @@ int    print_d_i(t_flags *p, int n, t_man *m)
     set_man(p, &m);
     if (nb < 0)
         nb = -nb;
-    if (!nb && !p->doth_number)
+    if (!nb)
     {
-        ft_putnbr_fd(0, 1);
-        return (count);
+        if (!p->dot)
+        {
+            ft_putnbr_fd(0, 1);
+            return (count);
+        }
+        else if (!p->doth_number)
+            return (0);
     }
     get_num(nb, m, &count);
     return (count);

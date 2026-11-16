@@ -16,7 +16,7 @@ void	ft_putuni_fd(unsigned int number, int fd)
 {
     if (number > 9)
 		ft_putuni_fd(number / 10, fd);
-	ft_putchar_fd((number % 10) + '0', fd);
+	((number % 10) + '0', fd);
 }
 
 int    print_u(unsigned int n)
