@@ -12,19 +12,21 @@
 
 #include "ft_printf.h"
 
-int	ft_putuni_fd(unsigned int number, int fd)
+static void put_nbr_len(int *count, unsigned int n)
 {
-	int	count;
+    char c;
 
-	count = 0;
-	if (number > 9)
-		count += ft_putuni_fd(number / 10, fd);
-	ft_putchar_fd((number % 10) + '0', fd);
-	count++;
-	return (count);
+    if (n >= 10)
+        put_nbr_len(count, n / 10);
+    c = n % 10 + '0';
+    put_len(count, &c, 1);
 }
 
 int	print_u(unsigned int n)
 {
-	return (ft_putuni_fd(n, 1));
+	int	count;
+
+	count = 0;
+	put_nbr_len(&count, n);
+	return (count);
 }

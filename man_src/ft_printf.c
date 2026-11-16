@@ -51,7 +51,10 @@ int	ft_printf(const char *s, ...)
 		if (*s == '%')
 		{
 			s++;
-			count += get_format(ap, &s);
+			er = get_format(ap, &s);
+			if (er < 0)
+				return (-1);
+			count += er;
 			if (!*s)
 				break ;
 		}

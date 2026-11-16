@@ -19,13 +19,9 @@ int	print_s(const char *s)
 	count = 0;
 	if (!s)
 	{
-		count = write(1, "(null)", 6);
-		if (count < 0)
-			return (0);
+		put_len(&count, "(null)", 6);
 		return (count);
 	}
-	count = write(1, s, ft_strlen(s));
-	if (count < 0)
-		return (0);
+	put_len(&count, s, ft_strlen(s));
 	return (count);
 }

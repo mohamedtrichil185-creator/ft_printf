@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void put_nbr_len(int *count, int n)
+static void put_nbr_len(int *count, int n)
 {
     char c;
 
