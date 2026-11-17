@@ -60,10 +60,9 @@ int	ft_printf(const char *s, ...)
 		}
 		else
 		{
-			er = write(1, s, 1);
-			if (er < 0)
-				return (0);
-			count += er;
+				if (write(1, s, 1) < 0)
+					return (-1);
+				count++;
 		}
 		s++;
 	}

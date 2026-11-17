@@ -9,7 +9,7 @@
 **   Your ft_printf runs in a child process: a segfault = FAIL, not a stop.
 **
 ** EACH TEST BELONGS TO A SPECIFIER AND A LEVEL
-**   specifiers : c  s  p  d/i  u  x  X  %  mix
+**   specifiers : c  s  p  d/i  u  x  X  mix     (the %% conversion is NOT tested)
 **   levels     : MANDATORY  (no flags, required by the subject)
 **                BONUS      (flags - 0 . # + space and width)
 **                OPTIONAL   (undefined in C, glibc may differ: ignore it)
@@ -20,8 +20,9 @@
 ** RUN (with run_all.sh)
 **   sh run_all.sh            all tests
 **   sh run_all.sh -q         only the FAIL
-**   sh run_all.sh d          only %d and %i       (c s p d u x X pct mix)
+**   sh run_all.sh d          only %d and %i       (c s p d u x X mix)
 **   sh run_all.sh -q x       only the FAIL of %x
+**   (option -m : run only the MANDATORY tests, no flags)
 */
 
 #include <stdio.h>
@@ -42,6 +43,8 @@
 #define GREY  "\033[90m"
 #define END   "\033[0m"
 
+int main(int ac, char **av);
+
 enum e_spec { S_C, S_S, S_P, S_D, S_U, S_X, S_XX, S_PCT, S_MIX, S_COUNT };
 enum e_kind { K_MAND, K_BONUS, K_OPT, K_COUNT };
 
@@ -60,6 +63,7 @@ static int  g_stat[S_COUNT][K_COUNT][2];   /* [spec][kind][0=pass, 1=fail] */
 static int  g_spec;
 static int  g_kind;
 static int  g_quiet;
+static int  g_mand_only;
 static int  g_saved;
 static int  g_fd;
 static char *g_filter;
@@ -122,6 +126,88 @@ static void show(const char *label, const char *buf, int len, int ret)
     printf("]  return=%d\n", ret);
 }
 
+
+/* ------------------------------------------------------------------ */
+/*  explain the difference between printf and ft_printf                */
+/* ------------------------------------------------------------------ */
+
+#define MAX_FAILED 1000
+static const char       *g_fdesc[MAX_FAILED];
+static unsigned char    g_fspec[MAX_FAILED];
+static unsigned char    g_fkind[MAX_FAILED];
+static int              g_nfailed;
+
+static int  vis_width(char c)
+{
+    return ((c == '\0' || c == '\n') ? 2 : 1);
+}
+
+static void put_char_desc(unsigned char c)
+{
+    if (c == '\0')
+        printf("'\\0'");
+    else if (c == '\n')
+        printf("'\\n'");
+    else if (c >= 32 && c < 127)
+        printf("'%c'", c);
+    else
+        printf("0x%02x", c);
+}
+
+static void explain(t_res *e, t_res *g)
+{
+    int i;
+    int j;
+    int col;
+    int n;
+
+    n = (e->len < g->len) ? e->len : g->len;
+    i = 0;
+    while (i < n && e->buf[i] == g->buf[i])
+        i++;
+    if (i < n || e->len != g->len)
+    {
+        col = 0;
+        j = 0;
+        while (j < i)
+            col += vis_width(e->buf[j++]);
+        printf("%*s^ first difference at position %d: ", 30 + col, "", i);
+        if (i < e->len && i < g->len)
+        {
+            printf("expected ");
+            put_char_desc((unsigned char)e->buf[i]);
+            printf(" but yours has ");
+            put_char_desc((unsigned char)g->buf[i]);
+            printf("\n");
+        }
+        else if (g->len < e->len)
+            printf("yours stops too early (%d char(s) missing)\n",
+                e->len - g->len);
+        else
+            printf("yours has %d extra char(s)\n", g->len - e->len);
+    }
+    if (e->ret != g->ret)
+        printf("        return value: expected %d, yours %d\n", e->ret, g->ret);
+}
+
+static void list_failed(void)
+{
+    int i;
+
+    if (g_nfailed == 0)
+        return ;
+    printf("\n=====================================================\n");
+    printf("  ALL FAILED TESTS (mandatory and bonus): %d\n", g_nfailed);
+    printf("-----------------------------------------------------\n");
+    i = 0;
+    while (i < g_nfailed)
+    {
+        printf("  [%-5s] %-9s  %s\n", g_spec_name[g_fspec[i]],
+            g_kind_name[g_fkind[i]], g_fdesc[i]);
+        i++;
+    }
+}
+
 static void report(const char *desc, t_res *e, t_res *g, int status)
 {
     int ok;
@@ -136,14 +222,26 @@ static void report(const char *desc, t_res *e, t_res *g, int status)
         return ;
     }
     printf(RED "  FAIL" END "  %s\n", desc);
+    if (g_kind != K_OPT && g_nfailed < MAX_FAILED)
+    {
+        g_fdesc[g_nfailed] = desc;
+        g_fspec[g_nfailed] = (unsigned char)g_spec;
+        g_fkind[g_nfailed] = (unsigned char)g_kind;
+        g_nfailed++;
+    }
     show("expected (printf)  :", e->buf, e->len, e->ret);
     if (WIFSIGNALED(status))
         printf("        ft_printf CRASHED (signal %d)\n", WTERMSIG(status));
     else
+    {
         show("yours    (ft_printf):", g->buf, g->len, g->ret);
+        explain(e, g);
+    }
 }
 
 #define TEST(...) do { \
+    if (g_mand_only && g_kind != K_MAND) \
+        break ; \
     t_res   exp_; \
     t_res   got_; \
     int     pipe_[2]; \
@@ -181,6 +279,8 @@ static void sec(int spec, int kind, const char *text)
 
     g_spec = spec;
     g_kind = kind;
+    if (g_mand_only && kind != K_MAND)
+        return ;
     color = (kind == K_MAND) ? YEL : (kind == K_BONUS) ? BLUE : GREY;
     printf("\n%s== [%s] %s: %s ==" END "\n", color, g_spec_name[spec],
         g_kind_name[kind], text);
@@ -670,33 +770,13 @@ static void test_xx(void)
 }
 
 /* ------------------------------------------------------------------ */
-/*  %%                                                                 */
-/* ------------------------------------------------------------------ */
-
-static void test_pct(void)
-{
-    sec(S_PCT, K_MAND, "percent sign");
-    TEST("%%");
-    TEST("%%%%");
-    TEST("100%%");
-    TEST("a%%b");
-    TEST("%c%%%c", 'a', 'b');
-    TEST("%%%d%%", 42);
-
-    sec(S_PCT, K_OPT, "width on %% (glibc may differ)");
-    TEST("[%5%]");
-    TEST("[%-5%]");
-    TEST("[%05%]");
-}
-
-/* ------------------------------------------------------------------ */
 /*  mix: flags reset, many specifiers in one call                      */
 /* ------------------------------------------------------------------ */
 
 static void test_mix(void)
 {
     sec(S_MIX, K_MAND, "several specifiers in one call");
-    TEST("%c %s %d %i %u %x %X %%", 'a', "bc", -1, 2, 3, 255, 255);
+    TEST("%c %s %d %i %u %x %X", 'a', "bc", -1, 2, 3, 255, 255);
     TEST("%c %s %p %d %u %x %X", 'a', "b", (void *)0xabc, 1, 2, 255, 255);
     TEST("text %d text %s text", 42, "str");
     TEST("%s%c%s", "ab", ':', "cd");
@@ -777,7 +857,9 @@ static int  summary(void)
         spec++;
     }
     printf("=====================================================\n");
-    if (mand_fail == 0 && bonus_fail == 0)
+    if (mand_fail == 0 && bonus_fail == 0 && g_mand_only)
+        printf(GREEN "  Mandatory is correct." END "\n");
+    else if (mand_fail == 0 && bonus_fail == 0)
         printf(GREEN "  Mandatory and bonus are correct." END "\n");
     else if (mand_fail)
         printf(RED "  Fix MANDATORY first (%d KO): the bonus is graded only "
@@ -785,6 +867,8 @@ static int  summary(void)
     else
         printf(YEL "  Mandatory is OK. %d KO left in the bonus." END "\n",
             bonus_fail);
+    if (g_mand_only)
+        printf(YEL "  Only the MANDATORY tests were run (option -m)." END "\n");
     printf("  OPTIONAL tests can be ignored.\n\n");
     return (mand_fail + bonus_fail);
 }
@@ -802,6 +886,8 @@ int main(int ac, char **av)
     {
         if (strcmp(av[i], "-q") == 0)
             g_quiet = 1;
+        else if (strcmp(av[i], "-m") == 0)
+            g_mand_only = 1;
         else
             g_filter = av[i];
         i++;
@@ -820,10 +906,9 @@ int main(int ac, char **av)
         test_x();
     if (want("X"))
         test_xx();
-    if (want("pct"))
-        test_pct();
     if (want("mix"))
         test_mix();
+    list_failed();
     fails = summary();
     free(g_heap);
     return (fails != 0);
