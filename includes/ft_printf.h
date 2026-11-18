@@ -13,20 +13,20 @@
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-#include "libft.h"
-#include <stdarg.h>
-#include <stdbool.h>
-#include <stdio.h>
+# include "libft.h"
+# include <stdarg.h>
+# include <stdbool.h>
+# include <stdio.h>
 
-int ft_printf(const char *s, ...);
-void put_len(int *count, const char *s, size_t size);
+int		ft_printf(const char *s, ...);
+void	put_len(int *count, const char *s, size_t size);
 
-int	print_c(char c);
-int	print_hex_lower(unsigned int n);
-int print_hex_upper(unsigned int n);
-int	print_d_i(int n);
-int	print_p(void *n);
-int	print_u(unsigned int n);
-int	print_s(const char *s);
+int		print_c(char c);
+int		print_hex_lower(unsigned int n);
+int		print_hex_upper(unsigned int n);
+int		print_d_i(int n);
+int		print_p(void *n);
+int		print_u(unsigned int n);
+int		print_s(const char *s);
 
 #endif

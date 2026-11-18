@@ -14,9 +14,9 @@
 
 void	print_x1(int *count, unsigned long n)
 {
-    if (n > 15)
-        print_x1(count, n / 16);
-    put_len(count, &"0123456789abcdef"[n % 16], 1);
+	if (n > 15)
+		print_x1(count, n / 16);
+	put_len(count, &"0123456789abcdef"[n % 16], 1);
 }
 
 int	print_p(void *n)

@@ -30,35 +30,35 @@ int	get_conversion(va_list ap, const char *format, t_flags *p, t_man *m)
 		count += print_hex_lower(p, va_arg(ap, unsigned int), m);
 	else if (*format == 'X')
 		count += print_hex_upper(p, va_arg(ap, unsigned int), m);
-    else if (*format == 'u')
-        count += print_u(p, va_arg(ap, unsigned int), m);
+	else if (*format == 'u')
+		count += print_u(p, va_arg(ap, unsigned int), m);
 	else if (*format == '%')
 		count += print_c(p, '%', m);
 	return (count);
 }
-int take_format(va_list ap, const char **format)
+int	take_format(va_list ap, const char **format)
 {
-    t_flags *p;
-    t_man   *m;
-    int     count;
+	t_flags	*p;
+	t_man	*m;
+	int		count;
 
-    count = 0;
-    p = malloc(sizeof(t_flags));
-    if (!p)
-        return (0);
-    m = malloc(sizeof(t_man));
-    if (!m)
-    {
-        free(p);
-        return (0);
-    }
-    p = ini_flags(p);
-    p = set_flags(format, p);
-    p = clean_flags(p);
-    m = ini_man(m);
-    if (**format)
-        count = get_conversion(ap, *format, p, m);
-    free(p);
-    free(m);
-    return (count);
+	count = 0;
+	p = malloc(sizeof(t_flags));
+	if (!p)
+		return (0);
+	m = malloc(sizeof(t_man));
+	if (!m)
+	{
+		free(p);
+		return (0);
+	}
+	p = ini_flags(p);
+	p = set_flags(format, p);
+	p = clean_flags(p);
+	m = ini_man(m);
+	if (**format)
+		count = get_conversion(ap, *format, p, m);
+	free(p);
+	free(m);
+	return (count);
 }

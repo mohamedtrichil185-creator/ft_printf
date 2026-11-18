@@ -1,9 +1,8 @@
 #include "ft_printf_bonus.h"
 
-
-bool	is_flags(char  c)
+bool	is_flags(char c)
 {
-	return (c == '-' || c == '+' || c == '0'|| c == '#' || c == ' ');
+	return (c == '-' || c == '+' || c == '0' || c == '#' || c == ' ');
 }
 
 static bool	is_width(char c)
@@ -15,7 +14,6 @@ static bool	is_doth(char c)
 {
 	return (c == '.');
 }
-
 
 static bool	is_conversion(char c, char *conversion)
 {
@@ -30,9 +28,9 @@ static bool	is_conversion(char c, char *conversion)
 
 t_flags	*set_flags(const char **format, t_flags *p)
 {
-	char	num[7];
-	char	num1[7];
-	int	i;
+	char	num[7] = {0};
+	char	num1[7] = {0};
+	int		i;
 
 	i = 0;
 	while (!is_conversion(**format, "cspdiuxX%") && **format)
@@ -42,7 +40,7 @@ t_flags	*set_flags(const char **format, t_flags *p)
 			p = get_flags(*format, p);
 			(*format)++;
 		}
-		if(is_width(**format))
+		if (is_width(**format))
 		{
 			while (ft_isdigit(**format) && **format && i < 7)
 				num[i++] = *(*format)++;

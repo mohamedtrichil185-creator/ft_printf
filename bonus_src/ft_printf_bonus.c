@@ -12,26 +12,26 @@
 
 #include "ft_printf_bonus.h"
 
-int ft_printf(const char *format, ...)
+int	ft_printf(const char *format, ...)
 {
-    va_list ap;
-    int     count;
+	va_list	ap;
+	int		count;
 
-    count = 0;
-    va_start(ap, format);
-    while (*format)
-    {
-        if (*format == '%')
-        {
-            format++;
-            count += take_format(ap, &format);
-            if (!*format)
-                break ;
-        }
-        else
-            count += write(1, format, 1);
-        format++;
-    }
-    va_end(ap);
-    return (count);
+	count = 0;
+	va_start(ap, format);
+	while (*format)
+	{
+		if (*format == '%')
+		{
+			format++;
+			count += take_format(ap, &format);
+			if (!*format)
+				break ;
+		}
+		else
+			count += write(1, format, 1);
+		format++;
+	}
+	va_end(ap);
+	return (count);
 }

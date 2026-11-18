@@ -12,14 +12,14 @@
 
 #include "ft_printf.h"
 
-static void put_nbr_len(int *count, unsigned int n)
+static void	put_nbr_len(int *count, unsigned int n)
 {
-    char c;
+	char	c;
 
-    if (n >= 10)
-        put_nbr_len(count, n / 10);
-    c = n % 10 + '0';
-    put_len(count, &c, 1);
+	if (n >= 10)
+		put_nbr_len(count, n / 10);
+	c = n % 10 + '0';
+	put_len(count, &c, 1);
 }
 
 int	print_u(unsigned int n)

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int print_c(char c)
+int	print_c(char c)
 {
 	int	count;
 

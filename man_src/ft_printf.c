@@ -1,16 +1,16 @@
 #include "ft_printf.h"
 
-void put_len(int *count, const char *s, size_t size)
+void	put_len(int *count, const char *s, size_t size)
 {
-    int ret;
+	int	ret;
 
-    if (*count < 0)
-        return ;
-    ret = write(1, s, size);
-    if (ret < 0)
-        *count = -1;
-    else
-        *count += ret;
+	if (*count < 0)
+		return ;
+	ret = write(1, s, size);
+	if (ret < 0)
+		*count = -1;
+	else
+		*count += ret;
 }
 
 int	get_format(va_list ap, const char **s)
@@ -40,10 +40,10 @@ int	get_format(va_list ap, const char **s)
 int	ft_printf(const char *s, ...)
 {
 	va_list	ap;
-	va_start(ap, s);
-	int	count;
-	int	er;
+	int		count;
+	int		er;
 
+	va_start(ap, s);
 	count = 0;
 	er = 0;
 	while (*s)
@@ -60,9 +60,9 @@ int	ft_printf(const char *s, ...)
 		}
 		else
 		{
-				if (write(1, s, 1) < 0)
-					return (-1);
-				count++;
+			if (write(1, s, 1) < 0)
+				return (-1);
+			count++;
 		}
 		s++;
 	}
