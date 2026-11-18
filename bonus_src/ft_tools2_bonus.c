@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_tools2_bonus.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mtraichl <mtraichl@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/18 17:30:24 by mtraichl          #+#    #+#             */
+/*   Updated: 2026/11/18 17:45:25 by mtraichl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf_bonus.h"
 
 bool	is_flags(char c)
@@ -28,10 +40,12 @@ static bool	is_conversion(char c, char *conversion)
 
 t_flags	*set_flags(const char **format, t_flags *p)
 {
-	char	num[7] = {0};
-	char	num1[7] = {0};
+	char	num[7];
+	char	num1[7];
 	int		i;
 
+	ft_bzero(num, 7);
+	ft_bzero(num1, 7);
 	i = 0;
 	while (!is_conversion(**format, "cspdiuxX%") && **format)
 	{
@@ -45,7 +59,6 @@ t_flags	*set_flags(const char **format, t_flags *p)
 			while (ft_isdigit(**format) && **format && i < 7)
 				num[i++] = *(*format)++;
 			p->width = ft_atoi(num);
-			// (*format)--;
 		}
 		if (is_doth(**format) && **format)
 		{
@@ -59,7 +72,6 @@ t_flags	*set_flags(const char **format, t_flags *p)
 			}
 			p->dot = 1;
 		}
-		// (*format)++;
 	}
 	return (p);
 }

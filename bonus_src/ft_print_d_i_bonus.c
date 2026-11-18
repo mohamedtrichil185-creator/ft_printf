@@ -3,45 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_d_i_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.1337.ma>          +#+  +:+
+	+#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 18:13:13 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/17 04:22:30 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/18 17:27:18 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-void	put_len(int *count, const char *s, size_t size)
+static void	handl_perfix(t_man *m, int *count, int *er)
 {
-	int	ret;
-
-	if (*count < 0)
-		return ;
-	ret = write(1, s, size);
-	if (ret < 0)
+	*er = ft_pad(m->perfix_type[0], 1);
+	if (*er < 0)
+	{
 		*count = -1;
-	else
-		*count += ret;
+		return ;
+	}
+	*count += *er;
 }
 
-void	put_nbr_len(int *count, long long n)
+static void	handl_left(t_man *m, int *count, int *er, long long nb)
 {
-	char	c;
-
-	if (n >= 10)
-		put_nbr_len(count, n / 10);
-	c = n % 10 + '0';
-	put_len(count, &c, 1);
+	if (m->left)
+	{
+		if (m->perfix_len)
+			handl_perfix(m, count, er);
+		*er = ft_pad('0', m->zeros);
+		if (*er < 0)
+		{
+			*count = -1;
+			return ;
+		}
+		*count += *er;
+		put_nbr_len(count, nb);
+		*er = ft_pad(' ', m->pad);
+		if (er < 0)
+		{
+			*count = -1;
+			return ;
+		}
+		*count += *er;
+	}
 }
 
-static int	print_un(unsigned int n)
+static void	handl_right(t_man *m, int *count, int *er, long long nb)
 {
-	int	count;
-
-	count = 0;
-	put_nbr_len(&count, n);
-	return (count);
+	*er = ft_pad(' ', m->pad);
+	if (*er < 0)
+	{
+		*count = -1;
+		return ;
+	}
+	*count += *er;
+	if (m->perfix_len)
+	{
+		*er = ft_pad(m->perfix_type[0], 1);
+		if (*er < 0)
+		{
+			*count = -1;
+			return ;
+		}
+		*count += *er;
+	}
+	*er = ft_pad('0', m->zeros);
+	if (*er < 0)
+	{
+		*count = -1;
+		return ;
+	}
+	*count += *er;
+	put_nbr_len(count, nb);
 }
 
 static void	get_num(long long nb, t_man *m, int *count, t_flags *p)
@@ -68,41 +101,9 @@ static void	get_num(long long nb, t_man *m, int *count, t_flags *p)
 		return ;
 	}
 	if (m->left)
-	{
-		if (m->perfix_len)
-		{
-			er = ft_pad(m->perfix_type[0], 1);
-			if (er < 0)
-			{
-				*count = -1;
-				return ;
-			}
-			*count += er;
-		}
-		er = ft_pad('0', m->zeros);
-		if (er < 0)
-		{
-			*count = -1;
-			return ;
-		}
-		*count += er;
-		print_un(nb);
-		er = ft_pad(' ', m->pad);
-		if (er < 0)
-		{
-			*count = -1;
-			return ;
-		}
-		*count += er;
-	}
+		handl_left(m, count, &er, nb);
 	else
-	{
-		*count += ft_pad(' ', m->pad);
-		if (m->perfix_len)
-			*count += ft_pad(m->perfix_type[0], 1);
-		*count += ft_pad('0', m->zeros);
-		print_un(nb);
-	}
+		handl_right(m, count, &er, nb);
 }
 
 int	print_d_i(t_flags *p, int n, t_man *m)
@@ -111,7 +112,7 @@ int	print_d_i(t_flags *p, int n, t_man *m)
 	long long	nb;
 
 	nb = n;
-	count = get_len_of_number(n);
+	count = 0;
 	get_perfix_signe_and_p_len(p, &m, n);
 	m->src_len = get_len_of_number(n);
 	set_man(p, &m);

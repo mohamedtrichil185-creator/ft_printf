@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_p_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.1337.ma>          +#+  +:+      
+	+#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/31 10:07:05 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/17 03:42:23 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/18 17:28:38 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +24,7 @@ static int	print_x1(unsigned long n)
 	return (count);
 }
 
-static void	hanld_NULL(t_flags *p, t_man *m, int *count)
+static void	hanld_null(t_flags *p, t_man *m, int *count)
 {
 	m->src_len = 5;
 	set_man(p, &m);
@@ -48,7 +49,7 @@ int	print_p(t_flags *p, void *n, t_man *m)
 	count = 0;
 	if (n == NULL)
 	{
-		hanld_NULL(p, m, &count);
+		hanld_null(p, m, &count);
 		return (count);
 	}
 	m->src_len = get_len_of_number_hex(s) + 2;

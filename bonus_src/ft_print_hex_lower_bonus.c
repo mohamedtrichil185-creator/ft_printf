@@ -3,49 +3,94 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_hex_lower_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.1337.ma>          +#+  +:+
+	+#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 19:00:35 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/17 03:45:18 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/18 17:27:39 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-int	get_len_of_number_hex(unsigned long n)
+static int	handl_not_hash(t_man *m, int *count)
 {
-	int	count;
-
-	count = 0;
-	if (n == 0)
-		count++;
-	while (n)
-	{
-		count++;
-		n /= 16;
-	}
-	return (count);
-}
-
-static int	print_x1(unsigned int n)
-{
-	int	count;
 	int	er;
 
 	er = 0;
-	count = 0;
-	if (n > 15)
-	{
-		er = print_x1(n / 16);
-		if (er < 0)
-			return (-1);
-		count += er;
-	}
-	er = write(1, &"0123456789abcdef"[n % 16], 1);
+	er = ft_pad('0', m->zeros);
 	if (er < 0)
 		return (-1);
-	count += er;
-	return (count);
+	*count += er;
+	put_len(count, m->perfix_type, m->perfix_len);
+	if (*count < 0)
+		return (-1);
+	return (*count);
+}
+
+static int	handl_hash(t_man *m, int *count)
+{
+	int	er;
+
+	er = 0;
+	put_len(count, m->perfix_type, m->perfix_len);
+	if (*count < 0)
+		return (-1);
+	er = ft_pad('0', m->zeros);
+	if (er < 0)
+		return (-1);
+	*count += er;
+	return (*count);
+}
+
+static int	handl_left(t_man *m, t_flags *p, int *count, unsigned int n)
+{
+	int	er;
+
+	er = 0;
+	if (!p->hash)
+	{
+		*count = handl_not_hash(m, count);
+		if (*count < 0)
+			return (-1);
+	}
+	else
+	{
+		*count = handl_hash(m, count);
+	}
+	er = print_x_hex(n);
+	if (er < 0)
+		return (-1);
+	*count += er;
+	er = ft_pad(' ', m->pad);
+	if (er < 0)
+		return (-1);
+	*count += er;
+	return (*count);
+}
+
+static int	handl_right(t_man *m, t_flags *p, int *count, unsigned int n)
+{
+	int	er;
+
+	er = 0;
+	*count = ft_pad(' ', m->pad);
+	if (*count < 0)
+		return (-1);
+	put_len(count, m->perfix_type, m->perfix_len);
+	if (*count < 0)
+		return (-1);
+	er = ft_pad('0', m->zeros);
+	if (er < 0)
+		return (-1);
+	*count += er;
+	if (!n && p->dot && !p->doth_number && p->width && !m->perfix_len)
+		return (*count);
+	er = print_x_hex(n);
+	if (er < 0)
+		return (-1);
+	*count += er;
+	return (*count);
 }
 
 int	print_hex_lower(t_flags *p, unsigned int n, t_man *m)
@@ -63,46 +108,8 @@ int	print_hex_lower(t_flags *p, unsigned int n, t_man *m)
 		return (0);
 	set_man(p, &m);
 	if (m->left)
-	{
-		if (!p->hash)
-		{
-			count += ft_pad('0', m->zeros);
-			put_len(&count, m->perfix_type, m->perfix_len);
-		}
-		else
-		{
-			put_len(&count, m->perfix_type, m->perfix_len);
-			count += ft_pad('0', m->zeros);
-		}
-		if (count < 0)
-			return (-1);
-		er = print_x1(n);
-		if (er < 0)
-			return (-1);
-		count += er;
-		er = ft_pad(' ', m->pad);
-		if (er < 0)
-			return (-1);
-		count += er;
-	}
+		count = handl_left(m, p, &count, n);
 	else
-	{
-		count = ft_pad(' ', m->pad);
-		if (count < 0)
-			return (-1);
-		put_len(&count, m->perfix_type, m->perfix_len);
-		if (count < 0)
-			return (-1);
-		er = ft_pad('0', m->zeros);
-		if (er < 0)
-			return (-1);
-		count += er;
-		if (!n && p->dot && !p->doth_number && p->width && !m->perfix_len)
-			return (count);
-		er = print_x1(n);
-		if (er < 0)
-			return (-1);
-		count += er;
-	}
+		count = handl_right(m, p, &count, n);
 	return (count);
 }

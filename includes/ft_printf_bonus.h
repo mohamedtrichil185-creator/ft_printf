@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf_bonus.h                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mtraichl <mtraichl@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/18 17:51:48 by mtraichl          #+#    #+#             */
+/*   Updated: 2026/11/18 17:51:51 by mtraichl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_PRINTF_BONUS_H
 # define FT_PRINTF_BONUS_H
 
@@ -63,5 +75,6 @@ t_flags		*ini_flags(t_flags *p);
 int			ft_pad(int c, int size);
 int			get_len_of_number(int n);
 t_flags		*clean_flags(t_flags *f);
+int     print_x_hex(unsigned int n);
 
 #endif

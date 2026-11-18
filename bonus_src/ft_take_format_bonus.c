@@ -1,17 +1,16 @@
-#include "ft_printf_bonus.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_take_format_bonus.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mtraichl <mtraichl@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/11/18 17:29:51 by mtraichl          #+#    #+#             */
+/*   Updated: 2026/11/18 17:30:04 by mtraichl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// void	print_struct(const t_flags *p)
-// {
-// 	printf("dot : %d\n", p->dot);
-// 	printf("doth_number : %d\n", p->doth_number);
-// 	printf("hash : %d\n", p->hash);
-// 	printf("minus : %d\n", p->mines);
-// 	printf("width %d\n", p->width);
-// 	printf("pluse : %d\n", p->plus);
-// 	printf("space : %d\n", p->space);
-// 	printf("zero : %d\n", p->zero);
-// }
-// int	do_flags(t_flags *p, format)
+#include "ft_printf_bonus.h"
 
 int	get_conversion(va_list ap, const char *format, t_flags *p, t_man *m)
 {
@@ -36,6 +35,7 @@ int	get_conversion(va_list ap, const char *format, t_flags *p, t_man *m)
 		count += print_c(p, '%', m);
 	return (count);
 }
+
 int	take_format(va_list ap, const char **format)
 {
 	t_flags	*p;

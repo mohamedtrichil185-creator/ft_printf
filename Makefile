@@ -39,7 +39,8 @@ BONUS_SRC = bonus_src/ft_print_c_bonus.c \
             bonus_src/ft_set_man_bonus.c \
             bonus_src/ft_take_format_bonus.c \
             bonus_src/ft_tools1_bonus.c \
-            bonus_src/ft_tools2_bonus.c
+            bonus_src/ft_tools2_bonus.c \
+            bonus_src/ft_tools3_bonus.c
 
 BONUS_OBJ = $(BONUS_SRC:.c=.o)
 

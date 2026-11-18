@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_s_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.1337.ma>          +#+  +:+      
+	+#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 18:15:29 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/15 04:13:19 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/18 17:28:56 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-static void	hanld_NULL(t_flags *p, t_man *m, int *count)
+static void	hanld_null(t_flags *p, t_man *m, int *count)
 {
 	m->src_len = 6;
 	if (p->dot && p->doth_number < 6)
@@ -57,7 +58,7 @@ int	print_s(t_flags *p, const char *s, t_man *m)
 	count = 0;
 	if (!s)
 	{
-		hanld_NULL(p, m, &count);
+		hanld_null(p, m, &count);
 		return (count);
 	}
 	get_src_len(m, s, p);
