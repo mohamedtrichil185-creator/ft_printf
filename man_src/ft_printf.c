@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <mtraichl@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/18 17:35:24 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/18 17:35:31 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/19 08:15:01 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,30 @@ int	get_format(va_list ap, const char **s)
 		return (print_c(**s));
 }
 
+static void	print_one(int *count, int er, va_list ap, const char *s)
+{
+	er = get_format(ap, &s);
+	if (er < 0)
+		*count = -1;
+	*count += er;
+}
+
 int	ft_printf(const char *s, ...)
 {
 	va_list	ap;
 	int		count;
 	int		er;
 
+	er = 0;
 	va_start(ap, s);
 	count = 0;
-	er = 0;
 	while (*s)
 	{
 		if (*s == '%')
 		{
 			s++;
-			er = get_format(ap, &s);
-			if (er < 0)
-				return (-1);
-			count += er;
-			if (!*s)
+			print_one(&count, er, ap, s);
+			if (!*s || count < 0)
 				break ;
 		}
 		else

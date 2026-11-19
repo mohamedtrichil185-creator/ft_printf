@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tools3_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <mtraichl@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/18 18:19:15 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/18 19:25:58 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/19 06:53:06 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "ft_printf_bonus.h"
 
 void	put_len(int *count, const char *s, size_t size)
@@ -67,4 +68,21 @@ int	print_x_hex(unsigned int n)
 		return (-1);
 	count += er;
 	return (count);
+}
+
+void	get_src_len(t_man *m, const char *s, t_flags *p)
+{
+	if (!ft_strlen(s))
+		m->src_len = 0;
+	else if (p->dot)
+	{
+		if (p->doth_number > ft_strlen(s))
+			m->src_len = ft_strlen(s);
+		else
+		{
+			m->src_len = p->doth_number;
+		}
+	}
+	else
+		m->src_len = ft_strlen(s);
 }

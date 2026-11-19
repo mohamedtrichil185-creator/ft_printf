@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <mtraichl@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/18 17:51:48 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/18 17:51:51 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/19 07:57:14 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ typedef struct s_man
 	size_t	left;
 }			t_man;
 
+void	handl_dot(const char **format, t_flags *p, char num1[7]);
 int			get_len_of_number_hex(unsigned long n);
 void		put_nbr_len_u(int *count, unsigned int n);
 void		put_len(int *count, const char *s, size_t size);
 void		put_nbr_len(int *count, long long n);
+void	get_src_len(t_man *m, const char *s, t_flags *p);
 
 int			ft_printf(const char *format, ...);
 
@@ -76,5 +78,6 @@ int			ft_pad(int c, int size);
 int			get_len_of_number(int n);
 t_flags		*clean_flags(t_flags *f);
 int     print_x_hex(unsigned int n);
+int	print_x1(unsigned long n);
 
 #endif

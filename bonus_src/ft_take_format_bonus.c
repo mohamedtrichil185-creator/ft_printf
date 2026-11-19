@@ -3,14 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_take_format_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <mtraichl@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/18 17:29:51 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/18 17:30:04 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/19 07:57:20 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
+
+int	print_x1(unsigned long n)
+{
+	int	count;
+	int	er;
+
+	er = 0;
+	count = 0;
+	if (n > 15)
+		count = print_x1(n / 16);
+	er = write(1, &"0123456789abcdef"[n % 16], 1);
+	if (er < 0)
+		return (-1);
+	count += er;
+	return (count);
+}
+
+void	handl_dot(const char **format, t_flags *p, char num1[7])
+{
+	int	i;
+
+	(*format)++;
+	if (ft_isdigit(**format))
+	{
+		i = 0;
+		while (ft_isdigit(**format) && **format)
+			num1[i++] = *(*format)++;
+		p->doth_number = ft_atoi(num1);
+	}
+	p->dot = 1;
+}
 
 int	get_conversion(va_list ap, const char *format, t_flags *p, t_man *m)
 {

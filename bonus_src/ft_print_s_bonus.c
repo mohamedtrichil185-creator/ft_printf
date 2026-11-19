@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_s_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <mtraichl@student.1337.ma>          +#+  +:+      
+/*   By: mtraichl <mtraichl@student.1337.ma>          +#+  +:+
 	+#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 18:15:29 by mtraichl          #+#    #+#             */
@@ -34,27 +34,69 @@ static void	hanld_null(t_flags *p, t_man *m, int *count)
 	}
 }
 
-static void	get_src_len(t_man *m, const char *s, t_flags *p)
+static int	handl_left(const char *s, t_man *m)
 {
-	if (!ft_strlen(s))
-		m->src_len = 0;
-	else if (p->dot)
+	int	er;
+	int	count;
+
+	count = 0;
+	er = 0;
+	er = write(1, s, m->src_len);
+	if (er < 0)
+		return (-1);
+	count += er;
+	er = ft_pad(' ', m->pad);
+	if (er < 0)
+		return (-1);
+	count += er;
+	return (count);
+}
+
+static void	handl_case_per_sep_of_length(int er, int *count, t_man *m,
+		const char *s)
+{
+	er = write(1, s, m->src_len);
+	if (er < 0)
 	{
-		if (p->doth_number > ft_strlen(s))
-			m->src_len = ft_strlen(s);
-		else
-		{
-			m->src_len = p->doth_number;
-		}
+		*count = -1;
+		return ;
 	}
+	*count += er;
+}
+
+static int	handl_right(t_man *m, const char *s, int count, t_flags *p)
+{
+	int	er;
+
+	er = ft_pad(' ', m->pad);
+	if (er < 0)
+		return (-1);
+	count += er;
+	if (p->width && p->doth_number)
+	{
+		er = ft_pad(' ', m->zeros);
+		if (er < 0)
+			return (-1);
+		count += er;
+	}
+	if (p->doth_number > ft_strlen(s))
+		handl_case_per_sep_of_length(er, &count, m, s);
 	else
-		m->src_len = ft_strlen(s);
+	{
+		er = write(1, s, m->src_len);
+		if (er < 0)
+			return (-1);
+		count += er;
+	}
+	return (count);
 }
 
 int	print_s(t_flags *p, const char *s, t_man *m)
 {
 	int	count;
+	int	er;
 
+	er = 0;
 	count = 0;
 	if (!s)
 	{
@@ -64,19 +106,8 @@ int	print_s(t_flags *p, const char *s, t_man *m)
 	get_src_len(m, s, p);
 	set_man(p, &m);
 	if (m->left)
-	{
-		count += write(1, s, m->src_len);
-		count += ft_pad(' ', m->pad);
-	}
+		count = handl_left(s, m);
 	else
-	{
-		count += ft_pad(' ', m->pad);
-		if (p->width && p->doth_number)
-			count += ft_pad(' ', m->zeros);
-		if (p->doth_number > ft_strlen(s))
-			count += write(1, s, m->src_len);
-		else
-			count += write(1, s, m->src_len);
-	}
+		count = handl_right(m, s, count, p);
 	return (count);
 }

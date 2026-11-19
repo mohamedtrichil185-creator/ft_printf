@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_s.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <mtraichl@student.1337.ma>          +#+  +:+      
+/*   By: mtraichl <mtraichl@student.1337.ma>          +#+  +:+
 	+#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 18:15:29 by mtraichl          #+#    #+#             */

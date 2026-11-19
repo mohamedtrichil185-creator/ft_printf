@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <mtraichl@student.1337.ma>          +#+  +:+      
+/*   By: mtraichl <mtraichl@student.1337.ma>          +#+  +:+
 	+#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:40:40 by mtraichl          #+#    #+#             */
@@ -17,7 +17,9 @@ int	ft_printf(const char *format, ...)
 {
 	va_list	ap;
 	int		count;
+	int		er;
 
+	er = 0;
 	count = 0;
 	va_start(ap, format);
 	while (*format)
@@ -25,7 +27,10 @@ int	ft_printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			count += take_format(ap, &format);
+			er = take_format(ap, &format);
+			if (er < 0)
+				return (-1);
+			count += er;
 			if (!*format)
 				break ;
 		}

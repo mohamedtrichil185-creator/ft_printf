@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_c_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <mtraichl@student.1337.ma>          +#+  +:+      
+/*   By: mtraichl <mtraichl@student.1337.ma>          +#+  +:+
 	+#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 18:13:17 by mtraichl          #+#    #+#             */
@@ -25,22 +25,16 @@ int	print_c(t_flags *p, char c, t_man *m)
 	if (m->left)
 	{
 		count = ft_pad(c, 1);
-		if (count < 0)
-			return (-1);
 		er = ft_pad(' ', m->pad);
-		if (er < 0)
-			return (-1);
-		count += er;
+		if (count >= 0 && er >= 0)
+			count += er;
 	}
 	else
 	{
 		count = ft_pad(' ', m->pad);
-		if (count < 0)
-			return (-1);
 		er = ft_pad(c, 1);
-		if (er < 0)
-			return (-1);
-		count += er;
+		if (count >= 0 && er >= 0)
+			count += er;
 	}
 	return (count);
 }

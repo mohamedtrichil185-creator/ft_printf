@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tools2_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtraichl <mtraichl@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mtraichl <mtraichl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/18 17:30:24 by mtraichl          #+#    #+#             */
-/*   Updated: 2026/11/18 17:45:25 by mtraichl         ###   ########.fr       */
+/*   Updated: 2026/11/19 07:14:48 by mtraichl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,7 @@ t_flags	*set_flags(const char **format, t_flags *p)
 			p->width = ft_atoi(num);
 		}
 		if (is_doth(**format) && **format)
-		{
-			(*format)++;
-			if (ft_isdigit(**format))
-			{
-				i = 0;
-				while (ft_isdigit(**format) && **format)
-					num1[i++] = *(*format)++;
-				p->doth_number = ft_atoi(num1);
-			}
-			p->dot = 1;
-		}
+			handl_dot(format, p, num1);
 	}
 	return (p);
 }
