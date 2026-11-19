@@ -67,7 +67,7 @@ $(BONUS_MARK) : $(BONUS_OBJ)
 
 clean :
 	$(MAKE) -C libft clean
-	rm -f $(MAN_OBJ) $(BONUS_OBJ)
+	rm -f $(MAN_OBJ) $(BONUS_OBJ) $(BONUS_MARK)
 
 fclean : clean
 	$(MAKE) -C libft fclean
