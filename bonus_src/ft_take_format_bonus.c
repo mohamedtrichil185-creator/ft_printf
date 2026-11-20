@@ -76,12 +76,12 @@ int	take_format(va_list ap, const char **format)
 	count = 0;
 	p = malloc(sizeof(t_flags));
 	if (!p)
-		return (0);
+		return (-1);
 	m = malloc(sizeof(t_man));
 	if (!m)
 	{
 		free(p);
-		return (0);
+		return (-1);
 	}
 	p = ini_flags(p);
 	p = set_flags(format, p);
